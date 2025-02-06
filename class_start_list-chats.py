@@ -5,14 +5,27 @@ class User:
         self.client = TelegramClient(session_name, api_id, api_hash)
         self.active_chat = None
 
-    async def start(self):
-        await self.client.start()
-
     async def list_chats(self):
-        dialogs = await self.client.get_dialogs()
+        with self.client:
+            dialogs = await self.client.get_dialogs()
         if not dialogs:
             return
         print("The list of chats: ")
-        for d in dialogs: 
-            name = getattr(d.entity, 'title', None) or getattr(d.entity, 'first_name')
-            print(f"(--'{name}'--) --> id: {d.id}")
+        for dialog in dialogs: 
+            name = getattr(dialog.entity, 'title', None) or getattr(dialog.entity, 'first_name')
+            print(f"(--'{name}'--) --> id: {dialog.id}")
+
+async def main(user):
+    await user.list_chats()
+
+if __name__ == "__main__":
+    f = open("secret.tct")
+    api_id = f.readline().strip()
+    api_hash = f.readline().strip()
+    session_name = "anon"
+    f.close()
+    
+    user = User(api_id, api_hash, session_name)
+    
+    with user.client:
+        user.client.loop.run_until_complete(main(user))
