@@ -19,7 +19,7 @@ async def main(user):
     await user.list_chats()
 
 if __name__ == "__main__":
-    f = open("secret.tct")
+    f = open("secret.txt")
     api_id = f.readline().strip()
     api_hash = f.readline().strip()
     session_name = "anon"
