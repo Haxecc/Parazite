@@ -15,6 +15,14 @@ class User:
             name = getattr(dialog.entity, 'title', None) or getattr(dialog.entity, 'first_name')
             print(f"(--'{name}'--) --> id: {dialog.id}")
 
+
+    async def send_message(self, message):
+        with self.client:       
+            self.client.send_message(destination, message)
+            print(f"(--'{message}'--) was sent to {destination}")
+        
+
+
 async def main(user):
     await user.list_chats()
 
