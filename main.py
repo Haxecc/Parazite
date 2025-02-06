@@ -16,7 +16,7 @@ class User:
             print(f"(--'{name}'--) --> id: {dialog.id}")
 
 
-    async def send_message(self, message):
+    async def send_message(self, destination, message):
         with self.client:       
             self.client.send_message(destination, message)
             print(f"(--'{message}'--) was sent to {destination}")
